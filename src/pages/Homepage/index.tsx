@@ -1,16 +1,22 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import CommonLayout from 'layout/CommonLayout';
 
 
 const Homepage = () => {
 
     return(
-        <div>
-            <Button variant="primary" type="submit">
-                    Create a post
-            </Button>
+        <CommonLayout>
+            <Card>
+                <Card.Body>
+                    Whats on your mind ?
+                    <Button variant="primary" type="submit">
+                        Create a post
+                    </Button>
+                </Card.Body>
+            </Card>
             <p>List of posts</p>
-        </div>
+        </CommonLayout>
     );
 };
 
