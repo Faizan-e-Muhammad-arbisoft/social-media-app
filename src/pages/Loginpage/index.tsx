@@ -1,49 +1,12 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
+import { initialValues } from 'pages/Loginpage/initialValues';
+import { validationSchema } from 'pages/Loginpage/validationSchema';
+import { Styled } from 'pages/Loginpage/Loginpage.styles';
 import CustomButton from 'components/Button';
 
-
-const OuterContainer = styled.div`
-    background-color:#1E90FF;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-`;
-
-const InnerContainer = styled.div`
-    background-color: white;
-    width: 50%;
-    height: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 80px;
-    padding-top: 70px;
-    padding-left: 30px;
-    padding-right: 30px;
-    border-radius: 20px;
-`;
-
-const Header = styled.h1`
-    text-align: center;
-`;
-
-const FormWrapper = styled.div`
-    margin-top: 30px;
-`;
-
-const BtnWrapper = styled.div`
-    margin-top: 50px;
-`;
-
-const ErrorWrapper = styled.div`
-    color: red;
-`;
 
 const Loginpage = () => {
     const [userError, setUserError] = useState<string>();
@@ -66,20 +29,17 @@ const Loginpage = () => {
     };
 
     return(
-        <OuterContainer>
+        <Styled.OuterContainer>
             {authRedirect ? <Redirect to='/homepage' /> : null}
-            <InnerContainer>
-                <Header>User Login</Header>
+            <Styled.InnerContainer>
+                <Styled.Header>User Login</Styled.Header>
                 <Formik
-                initialValues={{username:'', password: ''}}
-                validationSchema={Yup.object({
-                    username: Yup.string().required('Required'),
-                    password: Yup.string().required('Required')
-                })}
+                initialValues={initialValues}
+                validationSchema={ validationSchema }
                 onSubmit={(values) =>{submitHandler(values)}}
                 >
                     {({handleSubmit, handleChange, values}) =>(
-                        <FormWrapper>
+                        <Styled.FormWrapper>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
                                 <Form.Label>Username</Form.Label>
@@ -103,21 +63,21 @@ const Loginpage = () => {
                             </Form.Group>
                             <ErrorMessage name='password'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
             
-                            <BtnWrapper>
+                            <Styled.BtnWrapper>
                             <CustomButton buttonVariant='primary' type='submit'>
                                 Login
                             </CustomButton>
-                            </BtnWrapper>
+                            </Styled.BtnWrapper>
 
-                            <ErrorWrapper>
+                            <Styled.ErrorWrapper>
                                 {userError ? userError : null}
-                            </ErrorWrapper>
+                            </Styled.ErrorWrapper>
                         </Form>
-                        </FormWrapper>
+                        </Styled.FormWrapper>
                     )}
                 </Formik>
-            </InnerContainer>
-        </OuterContainer>
+            </Styled.InnerContainer>
+        </Styled.OuterContainer>
     );
 };
 

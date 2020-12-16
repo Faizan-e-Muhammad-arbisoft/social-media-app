@@ -7,4 +7,6 @@ const storeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || c
 
 const store = createStore(rootReducer, storeEnhancers(applyMiddleware(thunk)));
 
+export type RootStore = ReturnType<typeof rootReducer>
+
 export default store;
