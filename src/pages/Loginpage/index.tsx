@@ -1,36 +1,28 @@
-import React, { useState } from 'react';
+import React  from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Formik, ErrorMessage } from 'formik';
+import { Formik} from 'formik';
 import { initialValues } from 'pages/Loginpage/initialValues';
 import { validationSchema } from 'pages/Loginpage/validationSchema';
 import { Styled } from 'pages/Loginpage/Loginpage.styles';
+import CustomInputComponent from 'components/Input';
 import CustomButton from 'components/Button';
+import { login } from 'store/actions/auth';
+import { getAuthError, getIsAuthenticated, getAuthLoading } from 'store/selectors/auth';
+import { RootStore } from 'store';
 
 
-const Loginpage = () => {
-    const [userError, setUserError] = useState<string>();
-    const [authRedirect, setAuthRedirect] = useState<boolean>(false);
-
-    const users= [
-        {username: 'user1', password: 'pass1'},
-        {username: 'user2', password: 'pass2'}
-    ];
+const Loginpage = ( props: any ) => {
+    const { loading, error, isAuthenticated } = props;
 
     const submitHandler = (values: any) => {
-        let user = users.find(user => user.username === values.username && user.password === values.password);
-        if(user){
-            localStorage.setItem('userName', user.username);
-            setAuthRedirect(true);
-        }
-        else{
-            setUserError('Incorrect credentials');
-        }
+        props.loginHandler(values.username, values.password);
     };
 
     return(
         <Styled.OuterContainer>
-            {authRedirect ? <Redirect to='/homepage' /> : null}
+            {isAuthenticated ? <Redirect to='/homepage' /> : null}
             <Styled.InnerContainer>
                 <Styled.Header>User Login</Styled.Header>
                 <Formik
@@ -41,27 +33,21 @@ const Loginpage = () => {
                     {({handleSubmit, handleChange, values}) =>(
                         <Styled.FormWrapper>
                         <Form onSubmit={handleSubmit}>
-                            <Form.Group>
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                type='text'
-                                placeholder="Enter username"
-                                onChange={handleChange}
-                                value={values.username}
-                                name='username' />
-                            </Form.Group>
-                            <ErrorMessage name='username'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
-            
-                            <Form.Group>
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                onChange={handleChange}
-                                value={values.password}
-                                name='password' />
-                            </Form.Group>
-                            <ErrorMessage name='password'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
+                            <CustomInputComponent
+                            label='Username'
+                            type='text'
+                            placeholder='Enter username'
+                            onChange={handleChange}
+                            value={values.username}
+                            name='username' />
+
+                            <CustomInputComponent
+                            label='Password'
+                            type='password'
+                            placeholder='Enter password'
+                            onChange={handleChange}
+                            value={values.password}
+                            name='password' />
             
                             <Styled.BtnWrapper>
                             <CustomButton buttonVariant='primary' type='submit'>
@@ -70,7 +56,7 @@ const Loginpage = () => {
                             </Styled.BtnWrapper>
 
                             <Styled.ErrorWrapper>
-                                {userError ? userError : null}
+                                {error ? 'Incorrect Credentials' : null}
                             </Styled.ErrorWrapper>
                         </Form>
                         </Styled.FormWrapper>
@@ -81,4 +67,19 @@ const Loginpage = () => {
     );
 };
 
-export default Loginpage;
+const mapStateToProps = ( state: RootStore ) => {
+    return{
+        loading: getAuthLoading(state),
+        error: getAuthError(state),
+        isAuthenticated: getIsAuthenticated(state)
+    };
+};
+
+const mapDispatchToProps = ( dispatch: any ) => {
+    return {
+        loginHandler: (username: string, password: string) =>
+            dispatch(login(username, password))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Loginpage);

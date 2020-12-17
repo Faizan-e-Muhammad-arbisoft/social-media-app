@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import CommonLayout from 'layout/CommonLayout';
 import { getPosts } from 'store/selectors/createPost';
+import { RootStore } from 'store';
 
 
 const Homepage = ( props: any ) => {
@@ -45,7 +46,7 @@ const Homepage = ( props: any ) => {
     );
 };
 
-const mapStateToProps = ( state: any ) => {
+const mapStateToProps = ( state: RootStore ) => {
     return{
         posts: getPosts(state)
     };

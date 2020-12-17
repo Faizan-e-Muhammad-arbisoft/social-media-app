@@ -8,3 +8,7 @@ export interface IPost {
 export type PostType = {
     posts: IPost[]
 };
+
+export interface IUser {
+    username: string | null
+}

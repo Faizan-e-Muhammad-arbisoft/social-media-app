@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import  { Redirect } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Formik, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { createPost } from 'store/actions/createPost';
 import { Styled } from 'pages/Postcreatepage/Postcreatepage.styles';
 import CommonLayout from 'layout/CommonLayout';
+import CustomInputComponent from 'components/Input';
 import CustomButton from 'components/Button';
 
 
@@ -39,39 +40,31 @@ const Postcreatepage = ( props: any ) => {
                         {({handleSubmit, handleChange, values}) =>(
                             <Styled.FormWrapper>
                             <Form onSubmit={handleSubmit}>
-                                <Form.Group>
-                                    <Form.Label>Title</Form.Label>
-                                    <Form.Control
-                                    type='text'
-                                    placeholder="Enter title"
-                                    onChange={handleChange}
-                                    value={values.title}
-                                    name='title' />
-                                </Form.Group>
-                                <ErrorMessage name='title'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
+                                
+                                <CustomInputComponent
+                                label='Title'
+                                type='text'
+                                placeholder='Enter title'
+                                onChange={handleChange}
+                                value={values.title}
+                                name='title' />
 
-                                <Form.Group>
-                                    <Form.Label>Place</Form.Label>
-                                    <Form.Control
-                                    type='text'
-                                    placeholder="Enter place"
-                                    onChange={handleChange}
-                                    value={values.place}
-                                    name='place' />
-                                </Form.Group>
-                                <ErrorMessage name='place'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
+                                <CustomInputComponent
+                                label='Place'
+                                type='text'
+                                placeholder='Enter place'
+                                onChange={handleChange}
+                                value={values.place}
+                                name='place' />
 
-                                <Form.Group>
-                                    <Form.Label>Description</Form.Label>
-                                    <Form.Control
-                                    as='textarea'
-                                    rows={3}
-                                    placeholder="Enter description"
-                                    onChange={handleChange}
-                                    value={values.description}
-                                    name='description' />
-                                </Form.Group>
-                                <ErrorMessage name='description'>{ msg => <div style={{ color: 'red' }}>*{msg}</div> }</ErrorMessage>
+                                <CustomInputComponent
+                                label='Description'
+                                as='textarea'
+                                rows={3}
+                                placeholder='Enter description'
+                                onChange={handleChange}
+                                value={values.description}
+                                name='description' />
 
                                 <Styled.BtnWrapper>
                                     <CustomButton buttonVariant='primary' type='submit'>

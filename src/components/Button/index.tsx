@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react';
 import { Button } from 'react-bootstrap';
 
-export interface ICustomButtonProps {
+interface ICustomButtonProps {
     buttonVariant: 'primary' | 'outline-primary' | 'outline-light';
     children?: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -23,6 +23,6 @@ const CustomButton: React.FC<ICustomButtonProps & React.ButtonHTMLAttributes<HTM
             {children}
         </Button>
     );
-}
+};
 
-export default CustomButton;
+export default React.memo(CustomButton);
