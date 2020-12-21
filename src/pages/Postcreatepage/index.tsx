@@ -1,91 +1,96 @@
 import React, { useState } from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import  { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik, FormikProvider } from 'formik';
+import { initialValues } from 'pages/PostCreatePage/initialValues';
+import { validationSchema } from 'pages/PostCreatePage/validationSchema';
 import { createPost } from 'store/actions/createPost';
-import { Styled } from 'pages/Postcreatepage/Postcreatepage.styles';
 import CommonLayout from 'layout/CommonLayout';
 import CustomInputComponent from 'components/Input';
 import CustomButton from 'components/Button';
+import {
+  InnerContainerWrapper,
+  HeaderWrapper,
+  FormWrapper,
+  BtnWrapper,
+} from 'pages/PostCreatePage/PostCreatePage.styles';
 
+const PostCreatePage = (props: any) => {
+  const [redirect, setRedirect] = useState<boolean>(false);
 
-const Postcreatepage = ( props: any ) => {
-    const [redirect, setRedirect] = useState<boolean>(false);
-
-    const submitHandler = (values: any) => {
-        const post = {
-            ...values,
-            owner: localStorage.getItem('userName')
-        }
-        props.createPostHandler(post.title, post.place, post.description, post.owner);
-        setRedirect(true);
+  const submitHandler = (values: any) => {
+    const post = {
+      ...values,
+      owner: localStorage.getItem('userName'),
     };
+    props.createPostHandler(post.title, post.place, post.description, post.owner);
+    setRedirect(true);
+  };
 
-    return(
-        <CommonLayout>
-            {redirect ? <Redirect to='/homepage' /> : null}
-            <Styled.InnerContainer>
-                <Styled.Header>Create post</Styled.Header>
-                <Formik
-                    initialValues={{title:'', description: '', place: ''}}
-                    validationSchema={Yup.object({
-                        title: Yup.string().required('Required'),
-                        description: Yup.string().required('Required'),
-                        place: Yup.string().required('Required')
-                    })}
-                    onSubmit={(values) =>{submitHandler(values)}}
-                    >
-                        {({handleSubmit, handleChange, values}) =>(
-                            <Styled.FormWrapper>
-                            <Form onSubmit={handleSubmit}>
-                                
-                                <CustomInputComponent
-                                label='Title'
-                                type='text'
-                                placeholder='Enter title'
-                                onChange={handleChange}
-                                value={values.title}
-                                name='title' />
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      submitHandler(values);
+    },
+  });
 
-                                <CustomInputComponent
-                                label='Place'
-                                type='text'
-                                placeholder='Enter place'
-                                onChange={handleChange}
-                                value={values.place}
-                                name='place' />
+  return (
+    <CommonLayout>
+      {redirect ? <Redirect to="/homepage" /> : null}
+      <InnerContainerWrapper>
+        <HeaderWrapper>Create post</HeaderWrapper>
+        <FormWrapper>
+          <FormikProvider value={formik}>
+            <Form onSubmit={formik.handleSubmit}>
+              <CustomInputComponent
+                label="Title"
+                name="title"
+                type="text"
+                placeholder="Enter title"
+                onChange={formik.handleChange}
+                value={formik.values.title}
+              />
 
-                                <CustomInputComponent
-                                label='Description'
-                                as='textarea'
-                                rows={3}
-                                placeholder='Enter description'
-                                onChange={handleChange}
-                                value={values.description}
-                                name='description' />
+              <CustomInputComponent
+                label="Place"
+                name="place"
+                type="text"
+                placeholder="Enter place"
+                onChange={formik.handleChange}
+                value={formik.values.place}
+              />
 
-                                <Styled.BtnWrapper>
-                                    <CustomButton buttonVariant='primary' type='submit'>
-                                        Share
-                                    </CustomButton>
-                                </Styled.BtnWrapper>
+              <CustomInputComponent
+                label="Description"
+                name="description"
+                as="textarea"
+                rows={3}
+                placeholder="Enter description"
+                onChange={formik.handleChange}
+                value={formik.values.description}
+              />
 
-                            </Form>
-                            </Styled.FormWrapper>
-                        )}
-                </Formik>
-            </Styled.InnerContainer>
-        </CommonLayout>
-    );
+              <BtnWrapper>
+                <CustomButton buttonVariant="primary" type="submit">
+                  Share
+                </CustomButton>
+              </BtnWrapper>
+            </Form>
+          </FormikProvider>
+        </FormWrapper>
+      </InnerContainerWrapper>
+    </CommonLayout>
+  );
 };
 
-const mapDispatchToProps = ( dispatch: any ) => {
-    return {
-        createPostHandler: (title: string, place: string, description: string, owner: string) =>
-            dispatch(createPost(title, place, description, owner))
-    };
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    createPostHandler: (title: string, place: string, description: string, owner: string) =>
+      dispatch<any>(createPost(title, place, description, owner)),
+  };
 };
 
-export default connect(null, mapDispatchToProps)(Postcreatepage);
+export default connect(null, mapDispatchToProps)(PostCreatePage);

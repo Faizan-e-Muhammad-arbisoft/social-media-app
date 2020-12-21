@@ -1,14 +1,14 @@
 export interface IPost {
-    title: string
-    place: string
-    description: string
-    owner: string
-};
+  title: string;
+  place: string;
+  description: string;
+  owner: string;
+}
 
 export type PostType = {
-    posts: IPost[]
+  posts: IPost[];
 };
 
 export interface IUser {
-    username: string | null
+  username: string | null;
 }

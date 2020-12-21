@@ -1,18 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import LoginPage from 'pages/Loginpage';
-import HomePage from 'pages/Homepage';
-import Postcreatepage from 'pages/Postcreatepage';
+import LoginPage from 'pages/LoginPage';
+import HomePage from 'pages/HomePage';
+import Postcreatepage from 'pages/PostCreatePage';
 
 const Routes = () => {
-
-    return(
-        <Switch>
-            <Route path='/post/create' component={Postcreatepage} />
-            <Route path='/homepage' component={HomePage} />
-            <Route path='/' exact component={LoginPage} />
-        </Switch>
-    );
+  return (
+    <Switch>
+      <Route path="/post/create" component={Postcreatepage} />
+      <Route path="/homepage" component={HomePage} />
+      <Route path="/" exact component={LoginPage} />
+    </Switch>
+  );
 };
 
 export default Routes;

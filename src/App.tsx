@@ -1,11 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux'
-import store from 'store'
-import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import store from 'store';
+import { BrowserRouter } from 'react-router-dom';
 import Routes from 'routes';
-// import './App.css';
 
-const  App = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -13,6 +12,6 @@ const  App = () => {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default App;
