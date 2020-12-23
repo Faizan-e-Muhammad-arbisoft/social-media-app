@@ -1,8 +1,14 @@
+export interface IComment {
+  user: string;
+  comment: string;
+}
+
 export interface IPost {
   title: string;
   place: string;
   description: string;
   owner: string;
+  comments: IComment[];
 }
 
 export type PostType = {

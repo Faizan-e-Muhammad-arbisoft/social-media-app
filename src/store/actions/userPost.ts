@@ -14,6 +14,7 @@ export const createPost = (title: string, place: string, description: string, ow
       place: place,
       description: description,
       owner: owner,
+      comments: [],
     };
 
     dispatch({
@@ -23,6 +24,31 @@ export const createPost = (title: string, place: string, description: string, ow
   } catch (e) {
     dispatch({
       type: actionTypes.CREATE_POST_FAILED,
+    });
+  }
+};
+
+export const addComment = (user: string, commentString: string, postIndex: number) => (
+  dispatch: Dispatch<actionTypes.AddCommentDispatchTypes>
+) => {
+  try {
+    dispatch({
+      type: actionTypes.ADD_COMMENT_START,
+    });
+
+    const commentData = {
+      user: user,
+      comment: commentString,
+      postIndex: postIndex,
+    };
+
+    dispatch({
+      type: actionTypes.ADD_COMMENT_SUCCESS,
+      payload: commentData,
+    });
+  } catch (e) {
+    dispatch({
+      type: actionTypes.ADD_COMMENT_FAILED,
     });
   }
 };

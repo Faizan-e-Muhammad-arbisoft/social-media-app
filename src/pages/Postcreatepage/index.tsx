@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { useFormik, FormikProvider } from 'formik';
 import { initialValues } from 'pages/PostCreatePage/initialValues';
 import { validationSchema } from 'pages/PostCreatePage/validationSchema';
-import { createPost } from 'store/actions/createPost';
 import CommonLayout from 'layout/CommonLayout';
 import CustomInputComponent from 'components/Input';
 import CustomButton from 'components/Button';
@@ -86,11 +83,4 @@ const PostCreatePage = (props: any) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    createPostHandler: (title: string, place: string, description: string, owner: string) =>
-      dispatch<any>(createPost(title, place, description, owner)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(PostCreatePage);
+export default PostCreatePage;

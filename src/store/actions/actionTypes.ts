@@ -20,6 +20,26 @@ export interface CreatePostFailed {
 
 export type CreatePostDispatchTypes = CreatePostStart | CreatePostSuccess | CreatePostFailed;
 
+// ActionTypes for Add Comment
+export const ADD_COMMENT_START = 'ADD_COMMENT_START';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILED = 'ADD_COMMENT_FAILED';
+
+export interface AddCommentStart {
+  type: typeof ADD_COMMENT_START;
+}
+
+export interface AddCommentSuccess {
+  type: typeof ADD_COMMENT_SUCCESS;
+  payload: any;
+}
+
+export interface AddCommentFailed {
+  type: typeof ADD_COMMENT_FAILED;
+}
+
+export type AddCommentDispatchTypes = AddCommentStart | AddCommentSuccess | AddCommentFailed;
+
 // ActionsTypes for Auth
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';

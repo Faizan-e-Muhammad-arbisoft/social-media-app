@@ -1,10 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import CommonLayout from 'layout/CommonLayout';
-import { getPosts } from 'store/selectors/createPost';
-import { RootStore } from 'store';
+import {
+  OuterContainerWrapper,
+  TopContainerWrapper,
+  CardWrapper,
+  HeaderWrapper,
+  BtnWrapper,
+  BottomContainerWrapper,
+} from 'pages/HomePage/HomePage.styles';
 
 const HomePage = (props: any) => {
   let postCards = null;
@@ -13,39 +18,46 @@ const HomePage = (props: any) => {
     postCards = Object.keys(props.posts).map((postKey) => {
       const post = props.posts[postKey];
       return (
-        <Card key={postKey}>
-          <Card.Header as="h3">{post.title}</Card.Header>
-          <Card.Body>
-            <Card.Title>
-              Owner: {post.owner} , Location: {post.place}
-            </Card.Title>
-            <Card.Text>{post.description}</Card.Text>
-            <Button variant="primary">Add Comment</Button>
-          </Card.Body>
-        </Card>
+        <CardWrapper key={postKey}>
+          <Card>
+            <Card.Header as="h3">{post.title}</Card.Header>
+            <Card.Body>
+              <Card.Title>By: {post.owner}</Card.Title>
+              <Card.Title>No of Comments: {post.comments.length}</Card.Title>
+              <BtnWrapper>
+                <Button variant="primary" as={Link} to={{ pathname: '/post/view', state: { post_index: postKey } }}>
+                  View Post
+                </Button>
+              </BtnWrapper>
+            </Card.Body>
+          </Card>
+        </CardWrapper>
       );
     });
   }
 
   return (
     <CommonLayout>
-      <Card>
-        <Card.Body>
-          Share whats on your mind !!!
-          <Button variant="primary" as={Link} to={'/post/create'}>
-            Create a post
-          </Button>
-        </Card.Body>
-      </Card>
-      <div>{postCards}</div>
+      <OuterContainerWrapper>
+        <TopContainerWrapper>
+          <Card>
+            <Card.Body>
+              <h5>Share whats on your mind !!!</h5>
+              <BtnWrapper>
+                <Button variant="primary" as={Link} to={'/post/create'}>
+                  Create a post
+                </Button>
+              </BtnWrapper>
+            </Card.Body>
+          </Card>
+        </TopContainerWrapper>
+        <BottomContainerWrapper>
+          <HeaderWrapper>POST FEED</HeaderWrapper>
+          {postCards}
+        </BottomContainerWrapper>
+      </OuterContainerWrapper>
     </CommonLayout>
   );
 };
 
-const mapStateToProps = (state: RootStore) => {
-  return {
-    posts: getPosts(state),
-  };
-};
-
-export default connect(mapStateToProps)(HomePage);
+export default HomePage;
